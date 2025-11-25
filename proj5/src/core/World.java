@@ -32,7 +32,7 @@ public class World {
         jdong = new Random(seed);
         MIN_ROOM_SIZE = jdong.nextInt(3) + 3;
         MAX_ROOM_SIZE = MIN_ROOM_SIZE + 6 + jdong.nextInt(3);
-        K = 5 + jdong.nextInt(40);
+        K = 10 + jdong.nextInt(40);
         WIDTH = width;
         HEIGHT = height;
         ryanworld = new TETile[WIDTH][HEIGHT];
