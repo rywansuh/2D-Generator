@@ -20,36 +20,45 @@ public class Main {
         floor = new TETile(Tileset.FLOOR, Color.GRAY);
         rtiles[rtanwidth][rtanheight] = Tileset.AVATAR;
         ter.renderFrame(rtiles);
-        game();
+        while (true) {
+            hud();
+            if (StdDraw.hasNextKeyTyped()) {
+                move(StdDraw.nextKeyTyped());
+            }
+        }
 
     }
-    public static void game() {
-        while (true) {
-            char jidiot = nexta();
-            if (jidiot == 'w' && !rtiles[rtanwidth][rtanheight + 1].equals(Tileset.WALL)) {
-                rtiles[rtanwidth][rtanheight + 1] = Tileset.AVATAR;
-                rtiles[rtanwidth][rtanheight] = floor;
-                rtanheight +=1;
-                ter.renderFrame(rtiles);
-            }
-            else if (jidiot == 'a' && !rtiles[rtanwidth - 1][rtanheight].equals(Tileset.WALL)) {
-                rtiles[rtanwidth - 1][rtanheight] = Tileset.AVATAR;
-                rtiles[rtanwidth][rtanheight] = floor;
-                rtanwidth -=1;
-                ter.renderFrame(rtiles);
-            }
-            else if (jidiot == 's' && !rtiles[rtanwidth][rtanheight - 1].equals(Tileset.WALL)) {
-                rtiles[rtanwidth][rtanheight - 1] = Tileset.AVATAR;
-                rtiles[rtanwidth][rtanheight] = floor;
-                rtanheight -=1;
-                ter.renderFrame(rtiles);
-            }
-            else if (jidiot == 'd' && !rtiles[rtanwidth + 1][rtanheight].equals(Tileset.WALL)) {
-                rtiles[rtanwidth + 1][rtanheight] = Tileset.AVATAR;
-                rtiles[rtanwidth][rtanheight] = floor;
-                rtanwidth +=1;
-                ter.renderFrame(rtiles);
-            }
+    public static void hud(){
+
+    }
+    public static void move(char u) {
+        char jidiot = u;
+        if (jidiot == 'w' && !rtiles[rtanwidth][rtanheight + 1].equals(Tileset.WALL)) {
+            rtiles[rtanwidth][rtanheight + 1] = Tileset.AVATAR;
+            rtiles[rtanwidth][rtanheight] = floor;
+            rtanheight +=1;
+            ter.renderFrame(rtiles);
+        }
+        else if (jidiot == 'a' && !rtiles[rtanwidth - 1][rtanheight].equals(Tileset.WALL)) {
+            rtiles[rtanwidth - 1][rtanheight] = Tileset.AVATAR;
+            rtiles[rtanwidth][rtanheight] = floor;
+            rtanwidth -=1;
+            ter.renderFrame(rtiles);
+        }
+        else if (jidiot == 's' && !rtiles[rtanwidth][rtanheight - 1].equals(Tileset.WALL)) {
+            rtiles[rtanwidth][rtanheight - 1] = Tileset.AVATAR;
+            rtiles[rtanwidth][rtanheight] = floor;
+            rtanheight -=1;
+            ter.renderFrame(rtiles);
+        }
+        else if (jidiot == 'd' && !rtiles[rtanwidth + 1][rtanheight].equals(Tileset.WALL)) {
+            rtiles[rtanwidth + 1][rtanheight] = Tileset.AVATAR;
+            rtiles[rtanwidth][rtanheight] = floor;
+            rtanwidth +=1;
+            ter.renderFrame(rtiles);
+        }
+        else if (jidiot == 'q') {
+            System.exit(0);
         }
     }
     public static void mainMenu() {
