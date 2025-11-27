@@ -20,42 +20,46 @@ public class Main {
         floor = new TETile(Tileset.FLOOR, Color.GRAY);
         rtiles[rtanwidth][rtanheight] = Tileset.AVATAR;
         ter.renderFrame(rtiles);
+        StdDraw.setPenColor(Color.WHITE);
+        StdDraw.enableDoubleBuffering();
         while (true) {
-            hud();
+            hud(StdDraw.mouseX(), StdDraw.mouseY());
             if (StdDraw.hasNextKeyTyped()) {
                 move(StdDraw.nextKeyTyped());
             }
+            ter.renderFrame(rtiles);
         }
 
     }
-    public static void hud(){
-
+    public static void hud(double x,double y){
+        StdDraw.setPenColor(Color.WHITE);
+        if (x >= 0 && y >= 0 && x < rtiles.length && y < rtiles[0].length) {
+            StdDraw.text(rtiles.length/2, rtiles[0].length-1, "i think you are looking at uh " + rtiles[(int) x][(int) y].description());
+        }
+        StdDraw.show();
     }
-    public static void move(char u) {
-        char jidiot = u;
+    public static void move(char jidiot) {
         if (jidiot == 'w' && !rtiles[rtanwidth][rtanheight + 1].equals(Tileset.WALL)) {
             rtiles[rtanwidth][rtanheight + 1] = Tileset.AVATAR;
             rtiles[rtanwidth][rtanheight] = floor;
             rtanheight +=1;
-            ter.renderFrame(rtiles);
+
         }
         else if (jidiot == 'a' && !rtiles[rtanwidth - 1][rtanheight].equals(Tileset.WALL)) {
             rtiles[rtanwidth - 1][rtanheight] = Tileset.AVATAR;
             rtiles[rtanwidth][rtanheight] = floor;
             rtanwidth -=1;
-            ter.renderFrame(rtiles);
+
         }
         else if (jidiot == 's' && !rtiles[rtanwidth][rtanheight - 1].equals(Tileset.WALL)) {
             rtiles[rtanwidth][rtanheight - 1] = Tileset.AVATAR;
             rtiles[rtanwidth][rtanheight] = floor;
             rtanheight -=1;
-            ter.renderFrame(rtiles);
         }
         else if (jidiot == 'd' && !rtiles[rtanwidth + 1][rtanheight].equals(Tileset.WALL)) {
             rtiles[rtanwidth + 1][rtanheight] = Tileset.AVATAR;
             rtiles[rtanwidth][rtanheight] = floor;
             rtanwidth +=1;
-            ter.renderFrame(rtiles);
         }
         else if (jidiot == 'q') {
             System.exit(0);
