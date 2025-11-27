@@ -13,6 +13,8 @@ public class Main {
     static TETile[][] rtiles;
     static int rtanheight = 1;
     static int rtanwidth = 1;
+    static double mousex = 0;
+    static double mousey = 0;
     static TERenderer ter;
     static TETile floor;
     public static void main(String[] args) {
@@ -23,13 +25,24 @@ public class Main {
         StdDraw.setPenColor(Color.WHITE);
         StdDraw.enableDoubleBuffering();
         while (true) {
-            hud(StdDraw.mouseX(), StdDraw.mouseY());
+            if (mousemoved(StdDraw.mouseX(), StdDraw.mouseY())){
+                ter.renderFrame(rtiles);
+                hud(mousex, mousey);
+            }
             if (StdDraw.hasNextKeyTyped()) {
                 move(StdDraw.nextKeyTyped());
             }
-            ter.renderFrame(rtiles);
+
         }
 
+    }
+    public static boolean mousemoved(double x, double y) {
+        if (mousex != x || mousey != y) {
+            mousex = x;
+            mousey = y;
+            return true;
+        }
+        return false;
     }
     public static void hud(double x,double y){
         StdDraw.setPenColor(Color.WHITE);
@@ -64,6 +77,7 @@ public class Main {
         else if (jidiot == 'q') {
             System.exit(0);
         }
+        ter.renderFrame(rtiles);
     }
     public static void mainMenu() {
         StdDraw.text(0.5, 0.8, "CS61B: BYOW");
