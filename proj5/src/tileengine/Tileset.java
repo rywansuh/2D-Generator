@@ -29,11 +29,12 @@ public class Tileset {
             "locked door", 7);
     public static final TETile UNLOCKED_DOOR = new TETile('▢', Color.orange, Color.black,
             "unlocked door", 8);
-    public static final TETile SAND = new TETile('▒', Color.yellow, Color.black, "sand", 9);
+    public static final TETile SAND = new TETile('▒', Color.yellow, Color.yellow, "sand", 9);
     public static final TETile MOUNTAIN = new TETile('▲', Color.gray, Color.black, "mountain", 10);
     public static final TETile TREE = new TETile('♠', Color.green, Color.black, "tree", 11);
 
     public static final TETile CELL = new TETile('█', Color.white, Color.black, "cell", 12);
+    public static final TETile LIGHT = new TETile('*', Color.yellow, Color.black, "flower", 13);
     public static TETile getByID(int id) {
         if (id == 0) {
             return new TETile(AVATAR, Color.black);
@@ -45,6 +46,8 @@ public class Tileset {
             return new TETile(NOTHING, Color.black);
         } else if (id == 4) {
             return new TETile(GRASS, Color.gray);
+        } else if (id == 13) {
+            return new TETile(LIGHT, Color.yellow);
         }
         return new TETile(NOTHING, Color.black);
     }

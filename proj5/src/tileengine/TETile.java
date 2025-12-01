@@ -22,6 +22,7 @@ import utils.RandomUtils;
  */
 
 public class TETile {
+    int brightness;
     private final char character; // Do not rename character or the autograder will break.
     private final Color textColor;
     private final Color backgroundColor;

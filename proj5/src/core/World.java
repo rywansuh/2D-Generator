@@ -1,9 +1,12 @@
 package core;
 
+import com.github.javaparser.utils.Pair;
 import tileengine.TETile;
 import tileengine.Tileset;
 
-import java.awt.*;
+import java.awt.Color;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.ArrayDeque;
 import java.util.Queue;
@@ -22,10 +25,18 @@ public class World {
     private static int K = 40; // density
     private static final double SKIP_PROB = 0.15;
     private static final double BEND_PROB = 0.35;
-
+    public List<IntPair> lights = new ArrayList<IntPair>();
 
     public TETile[][] getTETiles(){
         return ryanworld;
+    }
+    class IntPair {
+        int x;
+        int y;
+        IntPair(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
     }
 
     public World(long seed, int width, int height) {
@@ -37,6 +48,19 @@ public class World {
         HEIGHT = height;
         ryanworld = new TETile[WIDTH][HEIGHT];
         generateWorld();
+        generateLights();
+    }
+    public void generateLights(){
+        int counter = 0;
+        while (counter < 10) {
+            int lightx = jdong.nextInt(WIDTH);
+            int lighty = jdong.nextInt(HEIGHT);
+            if (sameType(ryanworld[lightx][lighty], Tileset.FLOOR)) {
+                lights.add(new IntPair(lightx, lighty));
+                ryanworld[lightx][lighty] = new TETile(Tileset.LIGHT, Color.yellow);
+                counter++;
+            }
+        }
     }
     public void generateWorld() {
         setEmpty();

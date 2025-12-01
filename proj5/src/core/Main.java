@@ -57,6 +57,7 @@ public class Main {
         }
         StdDraw.show();
     }
+
     public static void move(char jidiot) {
         if (jidiot == 'w' && !rtiles[rtanwidth][rtanheight + 1].equals(Tileset.WALL)) {
             rtiles[rtanwidth][rtanheight + 1] = Tileset.AVATAR;
