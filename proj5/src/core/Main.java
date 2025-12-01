@@ -37,6 +37,7 @@ public class Main {
             }
             if (StdDraw.hasNextKeyTyped()) {
                 move(StdDraw.nextKeyTyped());
+                hud(mousex, mousey);
             }
 
         }
