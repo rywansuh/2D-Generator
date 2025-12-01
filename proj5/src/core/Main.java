@@ -1,11 +1,14 @@
 package core;
 
+import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.Out;
 import edu.princeton.cs.algs4.StdDraw;
 import tileengine.TERenderer;
 import tileengine.TETile;
 import tileengine.Tileset;
 
 import java.awt.*;
+import java.io.File;
 
 public class Main {
     static int WIDTH = 70;
@@ -13,10 +16,13 @@ public class Main {
     static TETile[][] rtiles;
     static int rtanheight = 1;
     static int rtanwidth = 1;
+    static Long seediest;
     static double mousex = 0;
     static double mousey = 0;
     static TERenderer ter;
     static TETile floor;
+    static boolean coloned = false;
+    static String gurter = "youWannaComeIn.txt";
     public static void main(String[] args) {
         mainMenu();
         floor = new TETile(Tileset.FLOOR, Color.GRAY);
@@ -74,9 +80,14 @@ public class Main {
             rtiles[rtanwidth][rtanheight] = floor;
             rtanwidth +=1;
         }
-        else if (jidiot == 'q') {
-            System.exit(0);
+        if (jidiot == ':') {
+            coloned = true;
+        } else if ((jidiot == 'q' || jidiot == 'Q') && coloned) {
+            exit();
+        } else {
+            coloned = false;
         }
+
         ter.renderFrame(rtiles);
     }
     public static void mainMenu() {
@@ -92,7 +103,7 @@ public class Main {
         else if (jd == 'n' || jd == 'N') {
             StdDraw.clear();
             StdDraw.text(0.5, 0.6, "Enter Seed followed by S:");
-            String seedy ="";
+            String seedy = "";
             char nextseed = nexta();
             while (nextseed != 's' && nextseed != 'S') {
                 seedy += nextseed;
@@ -101,16 +112,32 @@ public class Main {
                 StdDraw.text(0.5,0.4,seedy);
                 nextseed = nexta();
             }
+            seediest = Long.parseLong(seedy);
+            World awesomeworld = new World(seediest, WIDTH, HEIGHT - 1);
+            rtiles = extraLine(awesomeworld.getTETiles());
             ter = new TERenderer();
             ter.initialize(WIDTH, HEIGHT);
-            World awesomeworld = new World(Long.parseLong(seedy), WIDTH, HEIGHT);
-            rtiles = awesomeworld.getTETiles();
             ter.renderFrame(rtiles);
             return;
 
-        }
-        else if (jd == 'l' || jd == 'L') {
-            //do this
+        } else if (jd == 'l' || jd == 'L') {
+            //do this. i think i will implement saving first. so
+            File file = new File(gurter);
+            In in = new In(file);
+            seediest = in.readLong();
+            WIDTH = in.readInt();
+            HEIGHT = in.readInt();
+            boolean what = in.hasNextLine();
+            rtiles = new TETile[WIDTH][HEIGHT];
+            for (int i = 0; i < rtiles.length; i++) {
+                for (int j = 0; j < rtiles[0].length; j++) {
+                    int id = in.readInt();
+                    rtiles[i][j] = Tileset.getByID(id);
+                }
+            }
+            ter = new TERenderer();
+            ter.initialize(WIDTH, HEIGHT);
+            ter.renderFrame(rtiles);
         }
     }
     public static char nexta() {
@@ -120,5 +147,33 @@ public class Main {
                 return StdDraw.nextKeyTyped();
             }
         }
+    }
+    public static TETile[][] extraLine(TETile[][] tiles) {
+        TETile[][] extra = new TETile[tiles.length][tiles[0].length + 1];
+        for (int i = 0; i < tiles.length; i++) {
+            extra[i][tiles[0].length] = new TETile(Tileset.NOTHING, Color.BLACK);
+        }
+        for (int i = 0; i < tiles.length; i++) {
+            for (int j = 0; j < tiles[i].length; j++) {
+                extra[i][j] = tiles[i][j];
+            }
+        }
+        return extra;
+    }
+    public static void exit() {
+        Out out = new Out(gurter);
+        record(out, Long.toString(seediest));
+        record(out, Integer.toString(WIDTH));
+        record(out, Integer.toString(HEIGHT));
+        for (int i = 0; i < rtiles.length; i++) {
+            for (int j = 0; j < rtiles[i].length; j++) {
+                record(out, Integer.toString(rtiles[i][j].id()));
+            }
+        }
+        //more ambition features will be recorded here
+        System.exit(0);
+    }
+    public static void record(Out out, String thing) {
+        out.println(thing);
     }
 }

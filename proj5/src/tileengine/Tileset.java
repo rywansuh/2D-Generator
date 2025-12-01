@@ -34,6 +34,20 @@ public class Tileset {
     public static final TETile TREE = new TETile('♠', Color.green, Color.black, "tree", 11);
 
     public static final TETile CELL = new TETile('█', Color.white, Color.black, "cell", 12);
+    public static TETile getByID(int id) {
+        if (id == 0) {
+            return new TETile(AVATAR, Color.black);
+        } else if (id == 1) {
+            return new TETile(WALL, Color.darkGray);
+        } else if (id == 2) {
+            return new TETile(Tileset.FLOOR, Color.GRAY);
+        } else if (id == 3) {
+            return new TETile(NOTHING, Color.black);
+        } else if (id == 4) {
+            return new TETile(GRASS, Color.gray);
+        }
+        return new TETile(NOTHING, Color.black);
+    }
 }
 
 
