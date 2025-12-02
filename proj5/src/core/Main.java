@@ -118,8 +118,13 @@ public class Main {
                 }
             }
         }
+        for (int i = 0; i < rtiles.length; i++) {
+            for (int j = 0; j < rtiles[i].length; j++) {
+                rtiles[i][j].brightness = 0;
+            }
+        }
         for (int i = 0; i < ridiots.size(); i++) {
-            //brighten(ridiots.get(0).x, ridiots.get(0).y, rtiles);
+            brighten(ridiots.get(0).x, ridiots.get(0).y, rtiles);
         }
         return rtiles;
     }
