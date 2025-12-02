@@ -53,7 +53,7 @@ public class World {
     }
     public void generateLights(){
         int counter = 0;
-        while (counter < 10) {
+        while (counter < 6) {
             int lightx = jdong.nextInt(WIDTH);
             int lighty = jdong.nextInt(HEIGHT);
             if (sameType(ryanworld[lightx][lighty], Tileset.FLOOR) && (lightx != 1 || lighty != 2)) {
