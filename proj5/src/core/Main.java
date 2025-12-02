@@ -266,7 +266,7 @@ public class Main {
                 StdDraw.text(0.5, 0.6, "(N) New Game");
                 StdDraw.text(0.5, 0.5, "(L) Load Game");
                 StdDraw.text(0.5, 0.4, "(Q) Quit Game");
-                StdDraw.text(0.5, 0.3, "(C) Change Avatar. Current Avatar: Amongus");
+                StdDraw.text(0.5, 0.3, "(C) Change Avatar. Current Avatar: Happy");
                 StdDraw.show();
                 vatar = Tileset.AMOG;
             }
