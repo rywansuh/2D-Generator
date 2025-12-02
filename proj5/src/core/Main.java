@@ -9,8 +9,10 @@ import tileengine.Tileset;
 
 import java.awt.Color;
 import java.io.File;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 public class Main {
     static int WIDTH = 70;
@@ -27,13 +29,18 @@ public class Main {
     static boolean coloned = false;
     static String gurter = "youWannaComeIn.txt";
     static TETile vatar = Tileset.AVATAR;
+    public static boolean onLight = false;
+    public static int lastEmittance = 0;
+    public static boolean ryon = true;
     public static void main(String[] args) {
         mainMenu();
         floor = new TETile(Tileset.FLOOR, Color.GRAY);
         rtiles[rtanwidth][rtanheight] = vatar;
+        move('s');
         ter.renderFrame(rtiles);
         StdDraw.setPenColor(Color.WHITE);
         hud(mousex, mousey);
+
         while (true) {
             if (mousemoved(StdDraw.mouseX(), StdDraw.mouseY())){
                 ter.renderFrame(rtiles);
@@ -68,8 +75,19 @@ public class Main {
             if (rtiles[rtanwidth][rtanheight + 1].equals(Tileset.COIN)){
                 coincollected++;
             }
+            if (rtiles[rtanwidth][rtanheight + 1].equals(Tileset.LIGHT)) {
+                onLight = true;
+                lastEmittance = rtiles[rtanwidth][rtanheight + 1].emittance;
+                rtiles[rtanwidth][rtanheight] = new TETile(Tileset.FLOOR, Color.GRAY);
+            } else if (onLight) {
+                onLight = false;
+                rtiles[rtanwidth][rtanheight] = new TETile(Tileset.LIGHT, Color.YELLOW);
+                rtiles[rtanwidth][rtanheight].emittance = lastEmittance;
+            } else {
+                rtiles[rtanwidth][rtanheight] = new TETile(Tileset.FLOOR, Color.GRAY);
+            }
             rtiles[rtanwidth][rtanheight + 1] = vatar;
-            rtiles[rtanwidth][rtanheight] = floor;
+
             rtanheight +=1;
 
         }
@@ -77,25 +95,55 @@ public class Main {
             if (rtiles[rtanwidth - 1][rtanheight].equals(Tileset.COIN)){
                 coincollected++;
             }
+            if (rtiles[rtanwidth - 1][rtanheight].equals(Tileset.LIGHT)) {
+                onLight = true;
+                lastEmittance = rtiles[rtanwidth - 1][rtanheight].emittance;
+                rtiles[rtanwidth][rtanheight] = new TETile(Tileset.FLOOR, Color.GRAY);
+            } else if (onLight) {
+                onLight = false;
+                rtiles[rtanwidth][rtanheight] = new TETile(Tileset.LIGHT, Color.YELLOW);
+                rtiles[rtanwidth][rtanheight].emittance = lastEmittance;
+            } else {
+                rtiles[rtanwidth][rtanheight] = new TETile(Tileset.FLOOR, Color.GRAY);
+            }
             rtiles[rtanwidth - 1][rtanheight] = vatar;
-            rtiles[rtanwidth][rtanheight] = floor;
-            rtanwidth -=1;
+            rtanwidth -= 1;
 
         }
         else if (jidiot == 's' && !rtiles[rtanwidth][rtanheight - 1].equals(Tileset.WALL)) {
             if(rtiles[rtanwidth][rtanheight - 1].equals(Tileset.COIN)){
                 coincollected++;
             }
+            if (rtiles[rtanwidth][rtanheight - 1].equals(Tileset.LIGHT)) {
+                onLight = true;
+                lastEmittance = rtiles[rtanwidth][rtanheight - 1].emittance;
+                rtiles[rtanwidth][rtanheight] = new TETile(Tileset.FLOOR, Color.GRAY);
+            } else if (onLight) {
+                onLight = false;
+                rtiles[rtanwidth][rtanheight] = new TETile(Tileset.LIGHT, Color.YELLOW);
+                rtiles[rtanwidth][rtanheight].emittance = lastEmittance;
+            } else {
+                rtiles[rtanwidth][rtanheight] = new TETile(Tileset.FLOOR, Color.GRAY);
+            }
             rtiles[rtanwidth][rtanheight - 1] = vatar;
-            rtiles[rtanwidth][rtanheight] = floor;
-            rtanheight -=1;
+            rtanheight -= 1;
         }
         else if (jidiot == 'd' && !rtiles[rtanwidth + 1][rtanheight].equals(Tileset.WALL)) {
-            if(rtiles[rtanwidth + 1][rtanheight].equals(Tileset.COIN)){
+            if (rtiles[rtanwidth + 1][rtanheight].equals(Tileset.COIN)){
                 coincollected++;
             }
+            if (rtiles[rtanwidth + 1][rtanheight].equals(Tileset.LIGHT)) {
+                onLight = true;
+                lastEmittance = rtiles[rtanwidth + 1][rtanheight].emittance;
+                rtiles[rtanwidth][rtanheight] = new TETile(Tileset.FLOOR, Color.GRAY);
+            } else if (onLight) {
+                onLight = false;
+                rtiles[rtanwidth][rtanheight] = new TETile(Tileset.LIGHT, Color.YELLOW);
+                rtiles[rtanwidth][rtanheight].emittance = lastEmittance;
+            } else {
+                rtiles[rtanwidth][rtanheight] = new TETile(Tileset.FLOOR, Color.GRAY);
+            }
             rtiles[rtanwidth + 1][rtanheight] = vatar;
-            rtiles[rtanwidth][rtanheight] = floor;
             rtanwidth +=1;
         }
         if (jidiot == ':') {
@@ -105,8 +153,21 @@ public class Main {
         } else {
             coloned = false;
         }
-        lightupdate(rtiles);
-        ter.renderFrame(rtiles);
+        if (jidiot == 'x' && rtanwidth == 1 && rtanheight == 2) {
+            if (ryon) {
+                rtiles[1][2].emittance = 0;
+                ryon = false;
+            } else {
+                rtiles[1][2].emittance = 10;
+                ryon = true;
+            }
+        }
+        if (rtiles[1][2].equals(Tileset.LIGHT)) {
+            int temp = rtiles[1][2].emittance;
+            rtiles[1][2] = new TETile(Tileset.LIGHT, Color.GREEN);
+            rtiles[1][2].emittance = temp;
+        }
+        ter.renderFrame(lightupdate(rtiles));
     }
 
     public static TETile[][] lightupdate(TETile[][] rtiles) {
@@ -114,7 +175,24 @@ public class Main {
         for (int i = 0; i < rtiles.length; i++) {
             for (int j = 0; j < rtiles[i].length; j++) {
                 if (sameType(rtiles[i][j], Tileset.LIGHT)) {
-                    ridiots.add(new IntPair(i, j));
+                    if (i == 1 && j == 2) {
+                        if (ryon) {
+                            ridiots.add(new IntPair(i, j));
+                        }
+                    } else {
+                        ridiots.add(new IntPair(i, j));
+                    }
+                }
+                if (sameType(rtiles[i][j], vatar) && onLight) {
+                    if (i == 1 && j == 2) {
+                        if (ryon) {
+                            rtiles[i][j].emittance = lastEmittance;
+                            ridiots.add(new IntPair(i, j));
+                        }
+                    } else {
+                        rtiles[i][j].emittance = lastEmittance;
+                        ridiots.add(new IntPair(i, j));
+                    }
                 }
             }
         }
@@ -124,12 +202,47 @@ public class Main {
             }
         }
         for (int i = 0; i < ridiots.size(); i++) {
-            //brighten(ridiots.get(0).x, ridiots.get(0).y, rtiles);
+            rtiles = brighten(ridiots.get(i).x, ridiots.get(i).y, rtiles);
         }
         return rtiles;
     }
-    public void brighten (int x, int y) {
+    public static TETile[][] brighten (int x, int y, TETile[][] rtiles) {
+        int[][] letThereBe = new int[rtiles.length][rtiles[0].length];
+        boolean[][] isItTrue = new boolean[rtiles.length][rtiles[0].length];
 
+        Queue<IntPair> q = new ArrayDeque<IntPair>();
+        q.add(new IntPair(x, y));
+        letThereBe[x][y] = rtiles[x][y].emittance;
+        isItTrue[x][y] = true;
+        int[][] directisons = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+        while (!q.isEmpty()) {
+            IntPair p = q.remove();
+            if (letThereBe[p.x][p.y] == 0) {
+                continue;
+            }
+            TETile ridiot = rtiles[p.x][p.y];
+            if (sameType(ridiot, Tileset.LIGHT) || sameType(ridiot, Tileset.FLOOR) || sameType(ridiot, vatar) || sameType(ridiot, Tileset.COIN)) {
+                ridiot.brightness = Math.max(letThereBe[p.x][p.y], ridiot.brightness);
+            }
+            if (letThereBe[p.x][p.y] == 1) {
+                continue;
+            }
+            for (int[] d : directisons) {
+                int newx =  p.x + d[0];
+                int newy = p.y + d[1];
+                if (newx < 0 || newy < 0 || newx >= rtiles.length || newy >= rtiles[0].length){
+                    continue;
+                } else if (isItTrue[newx][newy]) {
+                    continue;
+                } else if (sameType(rtiles[newx][newy], Tileset.WALL)) {
+                    continue;
+                }
+                isItTrue[newx][newy] = true;
+                letThereBe[newx][newy] = letThereBe[p.x][p.y] - 1;
+                q.add(new IntPair(newx, newy));
+            }
+        }
+        return rtiles;
     }
     public static void mainMenu() {
         StdDraw.enableDoubleBuffering();

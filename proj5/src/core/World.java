@@ -56,12 +56,16 @@ public class World {
         while (counter < 10) {
             int lightx = jdong.nextInt(WIDTH);
             int lighty = jdong.nextInt(HEIGHT);
-            if (sameType(ryanworld[lightx][lighty], Tileset.FLOOR)) {
+            if (sameType(ryanworld[lightx][lighty], Tileset.FLOOR) && (lightx != 1 || lighty != 2)) {
                 lights.add(new IntPair(lightx, lighty));
                 ryanworld[lightx][lighty] = new TETile(Tileset.LIGHT, Color.yellow);
+                ryanworld[lightx][lighty].emittance = 3 + jdong.nextInt(10);
                 counter++;
             }
         }
+        lights.add(new IntPair(1, 2));
+        ryanworld[1][2] = new TETile(Tileset.LIGHT, Color.yellow);
+        ryanworld[1][2].emittance = 10;
     }
     public void generateCoins(){
         int counter = 0;

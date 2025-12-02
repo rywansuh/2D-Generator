@@ -23,6 +23,7 @@ import utils.RandomUtils;
 
 public class TETile {
     public int brightness = 0;
+    public int emittance;
     private final char character; // Do not rename character or the autograder will break.
     private final Color textColor;
     private final Color backgroundColor;
@@ -103,9 +104,9 @@ public class TETile {
                 // and just use the character and background color for the tile.
             }
         }
-        int r = Math.min(255, backgroundColor.getRed() + brightness * 10);
-        int g = Math.min(255, backgroundColor.getGreen() + brightness * 10);
-        int b = Math.min(255, backgroundColor.getBlue() + brightness * 10);
+        int r = Math.max(Math.min(255, backgroundColor.getRed() + brightness * 10), 0);
+        int g = Math.max(Math.min(255, backgroundColor.getGreen() + brightness * 10), 0);
+        int b = Math.max(Math.min(255, backgroundColor.getBlue() + brightness * 10), 0);
         Color realBackground = new Color(r, g, b);
         StdDraw.setPenColor(realBackground);
         StdDraw.filledSquare(x + 0.5, y + 0.5, 0.5);
