@@ -26,13 +26,13 @@ public class Main {
     static int coincollected = 0;
     static boolean coloned = false;
     static String gurter = "youWannaComeIn.txt";
+    static TETile vatar = Tileset.AVATAR;
     public static void main(String[] args) {
         mainMenu();
         floor = new TETile(Tileset.FLOOR, Color.GRAY);
-        rtiles[rtanwidth][rtanheight] = Tileset.AVATAR;
+        rtiles[rtanwidth][rtanheight] = vatar;
         ter.renderFrame(rtiles);
         StdDraw.setPenColor(Color.WHITE);
-        StdDraw.enableDoubleBuffering();
         hud(mousex, mousey);
         while (true) {
             if (mousemoved(StdDraw.mouseX(), StdDraw.mouseY())){
@@ -68,7 +68,7 @@ public class Main {
             if (rtiles[rtanwidth][rtanheight + 1].equals(Tileset.COIN)){
                 coincollected++;
             }
-            rtiles[rtanwidth][rtanheight + 1] = Tileset.AVATAR;
+            rtiles[rtanwidth][rtanheight + 1] = vatar;
             rtiles[rtanwidth][rtanheight] = floor;
             rtanheight +=1;
 
@@ -77,7 +77,7 @@ public class Main {
             if (rtiles[rtanwidth - 1][rtanheight].equals(Tileset.COIN)){
                 coincollected++;
             }
-            rtiles[rtanwidth - 1][rtanheight] = Tileset.AVATAR;
+            rtiles[rtanwidth - 1][rtanheight] = vatar;
             rtiles[rtanwidth][rtanheight] = floor;
             rtanwidth -=1;
 
@@ -86,7 +86,7 @@ public class Main {
             if(rtiles[rtanwidth][rtanheight - 1].equals(Tileset.COIN)){
                 coincollected++;
             }
-            rtiles[rtanwidth][rtanheight - 1] = Tileset.AVATAR;
+            rtiles[rtanwidth][rtanheight - 1] = vatar;
             rtiles[rtanwidth][rtanheight] = floor;
             rtanheight -=1;
         }
@@ -94,7 +94,7 @@ public class Main {
             if(rtiles[rtanwidth + 1][rtanheight].equals(Tileset.COIN)){
                 coincollected++;
             }
-            rtiles[rtanwidth + 1][rtanheight] = Tileset.AVATAR;
+            rtiles[rtanwidth + 1][rtanheight] = vatar;
             rtiles[rtanwidth][rtanheight] = floor;
             rtanwidth +=1;
         }
@@ -132,18 +132,45 @@ public class Main {
 
     }
     public static void mainMenu() {
+        StdDraw.enableDoubleBuffering();
         StdDraw.text(0.5, 0.8, "CS61B: BYOW");
         StdDraw.text(0.5, 0.6, "(N) New Game");
         StdDraw.text(0.5, 0.5, "(L) Load Game");
         StdDraw.text(0.5, 0.4, "(Q) Quit Game");
+        StdDraw.text(0.5, 0.3, "(C) Change Avatar. Current Avatar: Original");
+        StdDraw.show();
         char jd = nexta();
 
+        while (jd == 'c' || jd == 'C') {
+            if (vatar.equals(Tileset.AVATAR)) {
+                StdDraw.clear();
+                StdDraw.text(0.5, 0.8, "CS61B: BYOW");
+                StdDraw.text(0.5, 0.6, "(N) New Game");
+                StdDraw.text(0.5, 0.5, "(L) Load Game");
+                StdDraw.text(0.5, 0.4, "(Q) Quit Game");
+                StdDraw.text(0.5, 0.3, "(C) Change Avatar. Current Avatar: Amongus");
+                StdDraw.show();
+                vatar = Tileset.AMOG;
+            }
+            else {
+                StdDraw.clear();
+                StdDraw.text(0.5, 0.8, "CS61B: BYOW");
+                StdDraw.text(0.5, 0.6, "(N) New Game");
+                StdDraw.text(0.5, 0.5, "(L) Load Game");
+                StdDraw.text(0.5, 0.4, "(Q) Quit Game");
+                StdDraw.text(0.5, 0.3, "(C) Change Avatar. Current Avatar: Original");
+                StdDraw.show();
+                vatar = Tileset.AVATAR;
+            }
+            jd = nexta();
+        }
         if (jd == 'q' || jd == 'Q') {
             System.exit(0);
         }
         else if (jd == 'n' || jd == 'N') {
             StdDraw.clear();
             StdDraw.text(0.5, 0.6, "Enter Seed followed by S:");
+            StdDraw.show();
             String seedy = "";
             char nextseed = nexta();
             while (nextseed != 's' && nextseed != 'S') {
@@ -151,6 +178,7 @@ public class Main {
                 StdDraw.clear();
                 StdDraw.text(0.5, 0.6, "Enter Seed followed by S:");
                 StdDraw.text(0.5,0.4,seedy);
+                StdDraw.show();
                 nextseed = nexta();
             }
             seediest = Long.parseLong(seedy);
