@@ -7,8 +7,10 @@ import tileengine.TERenderer;
 import tileengine.TETile;
 import tileengine.Tileset;
 
-import java.awt.*;
+import java.awt.Color;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     static int WIDTH = 70;
@@ -103,8 +105,26 @@ public class Main {
         } else {
             coloned = false;
         }
-
+        lightupdate(rtiles);
         ter.renderFrame(rtiles);
+    }
+
+    public static TETile[][] lightupdate(TETile[][] rtiles) {
+        ArrayList<IntPair> ridiots = new ArrayList<IntPair>();
+        for (int i = 0; i < rtiles.length; i++) {
+            for (int j = 0; j < rtiles[i].length; j++) {
+                if (sameType(rtiles[i][j], Tileset.LIGHT)) {
+                    ridiots.add(new IntPair(i, j));
+                }
+            }
+        }
+        for (int i = 0; i < ridiots.size(); i++) {
+            //brighten(ridiots.get(0).x, ridiots.get(0).y, rtiles);
+        }
+        return rtiles;
+    }
+    public void brighten (int x, int y) {
+
     }
     public static void mainMenu() {
         StdDraw.text(0.5, 0.8, "CS61B: BYOW");
@@ -190,5 +210,11 @@ public class Main {
     }
     public static void record(Out out, String thing) {
         out.println(thing);
+    }
+    private static boolean sameType(TETile jason, TETile ryan) {
+        if (jason == null || ryan == null) {
+            return false;
+        }
+        return jason.character() == ryan.character() && jason.description().equals(ryan.description());
     }
 }
