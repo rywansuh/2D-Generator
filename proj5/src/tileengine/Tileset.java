@@ -32,7 +32,7 @@ public class Tileset {
     public static final TETile SAND = new TETile('▒', Color.yellow, Color.yellow, "sand", 9);
     public static final TETile MOUNTAIN = new TETile('▲', Color.gray, Color.black, "mountain", 10);
     public static final TETile TREE = new TETile('♠', Color.green, Color.black, "tree", 11);
-    public static final TETile AMOG = new TETile('1', Color.green, Color.black, "amongus", "./amog.png", 15);
+    public static final TETile AMOG = new TETile('1', Color.green, Color.white, "amongus", "./amog.png", 15);
     public static final TETile CELL = new TETile('█', Color.white, Color.black, "cell", 12);
     public static final TETile LIGHT = new TETile('*', Color.yellow, Color.black, "Light", 13);
     public static final TETile COIN = new TETile('©', Color.yellow, Color.black, "Coin", 14);
