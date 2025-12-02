@@ -21,6 +21,7 @@ public class Main {
     static double mousey = 0;
     static TERenderer ter;
     static TETile floor;
+    static int coincollected = 0;
     static boolean coloned = false;
     static String gurter = "youWannaComeIn.txt";
     public static void main(String[] args) {
@@ -30,6 +31,7 @@ public class Main {
         ter.renderFrame(rtiles);
         StdDraw.setPenColor(Color.WHITE);
         StdDraw.enableDoubleBuffering();
+        hud(mousex, mousey);
         while (true) {
             if (mousemoved(StdDraw.mouseX(), StdDraw.mouseY())){
                 ter.renderFrame(rtiles);
@@ -54,30 +56,42 @@ public class Main {
     public static void hud(double x,double y){
         StdDraw.setPenColor(Color.WHITE);
         if (x >= 0 && y >= 0 && x < rtiles.length && y < rtiles[0].length) {
-            StdDraw.text(rtiles.length/2, rtiles[0].length-1, "i think you are looking at uh " + rtiles[(int) x][(int) y].description());
+            StdDraw.text(rtiles.length/2, rtiles[0].length-1, "coins collected: "+ coincollected+"              i think you are looking at uh " + rtiles[(int) x][(int) y].description());
         }
         StdDraw.show();
     }
 
     public static void move(char jidiot) {
         if (jidiot == 'w' && !rtiles[rtanwidth][rtanheight + 1].equals(Tileset.WALL)) {
+            if (rtiles[rtanwidth][rtanheight + 1].equals(Tileset.COIN)){
+                coincollected++;
+            }
             rtiles[rtanwidth][rtanheight + 1] = Tileset.AVATAR;
             rtiles[rtanwidth][rtanheight] = floor;
             rtanheight +=1;
 
         }
         else if (jidiot == 'a' && !rtiles[rtanwidth - 1][rtanheight].equals(Tileset.WALL)) {
+            if (rtiles[rtanwidth - 1][rtanheight].equals(Tileset.COIN)){
+                coincollected++;
+            }
             rtiles[rtanwidth - 1][rtanheight] = Tileset.AVATAR;
             rtiles[rtanwidth][rtanheight] = floor;
             rtanwidth -=1;
 
         }
         else if (jidiot == 's' && !rtiles[rtanwidth][rtanheight - 1].equals(Tileset.WALL)) {
+            if(rtiles[rtanwidth][rtanheight - 1].equals(Tileset.COIN)){
+                coincollected++;
+            }
             rtiles[rtanwidth][rtanheight - 1] = Tileset.AVATAR;
             rtiles[rtanwidth][rtanheight] = floor;
             rtanheight -=1;
         }
         else if (jidiot == 'd' && !rtiles[rtanwidth + 1][rtanheight].equals(Tileset.WALL)) {
+            if(rtiles[rtanwidth + 1][rtanheight].equals(Tileset.COIN)){
+                coincollected++;
+            }
             rtiles[rtanwidth + 1][rtanheight] = Tileset.AVATAR;
             rtiles[rtanwidth][rtanheight] = floor;
             rtanwidth +=1;
@@ -120,7 +134,6 @@ public class Main {
             ter = new TERenderer();
             ter.initialize(WIDTH, HEIGHT);
             ter.renderFrame(rtiles);
-            return;
 
         } else if (jd == 'l' || jd == 'L') {
             //do this. i think i will implement saving first. so

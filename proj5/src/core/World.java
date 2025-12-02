@@ -49,6 +49,7 @@ public class World {
         ryanworld = new TETile[WIDTH][HEIGHT];
         generateWorld();
         generateLights();
+        generateCoins();
     }
     public void generateLights(){
         int counter = 0;
@@ -58,6 +59,18 @@ public class World {
             if (sameType(ryanworld[lightx][lighty], Tileset.FLOOR)) {
                 lights.add(new IntPair(lightx, lighty));
                 ryanworld[lightx][lighty] = new TETile(Tileset.LIGHT, Color.yellow);
+                counter++;
+            }
+        }
+    }
+    public void generateCoins(){
+        int counter = 0;
+        while (counter < 10) {
+            int lightx = jdong.nextInt(WIDTH);
+            int lighty = jdong.nextInt(HEIGHT);
+            if (sameType(ryanworld[lightx][lighty], Tileset.FLOOR)) {
+                lights.add(new IntPair(lightx, lighty));
+                ryanworld[lightx][lighty] = new TETile(Tileset.COIN, Color.yellow);
                 counter++;
             }
         }
