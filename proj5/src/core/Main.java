@@ -7,7 +7,7 @@ import tileengine.TERenderer;
 import tileengine.TETile;
 import tileengine.Tileset;
 
-import java.awt.Color;
+import java.awt.*;
 import java.io.File;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -44,6 +44,7 @@ public class Main {
         }
         ter.renderFrame(lightupdate(rtiles));
         StdDraw.setPenColor(Color.WHITE);
+        StdDraw.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
         hud(mousex, mousey);
 
         while (true) {
@@ -70,7 +71,10 @@ public class Main {
     public static void hud(double x,double y){
         StdDraw.setPenColor(Color.WHITE);
         if (x >= 0 && y >= 0 && x < rtiles.length && y < rtiles[0].length) {
-            StdDraw.text(rtiles.length/2, rtiles[0].length-1, "coins collected: "+ coincollected+"              i think you are looking at uh " + rtiles[(int) x][(int) y].description());
+            StdDraw.text(rtiles.length/2, rtiles[0].length-0.5, "coins collected: "+ coincollected+"              i think you are looking at uh " + rtiles[(int) x][(int) y].description());
+        }
+        else {
+            StdDraw.text(rtiles.length/2, rtiles[0].length-0.5, "coins collected: "+ coincollected);
         }
         StdDraw.show();
     }
