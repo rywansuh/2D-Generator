@@ -36,8 +36,13 @@ public class Main {
         mainMenu();
         floor = new TETile(Tileset.FLOOR, Color.GRAY);
         rtiles[rtanwidth][rtanheight] = vatar;
-        move('s');
-        ter.renderFrame(rtiles);
+        lightupdate(rtiles);
+        if (rtiles[1][2].equals(Tileset.LIGHT)) {
+            int temp = rtiles[1][2].emittance;
+            rtiles[1][2] = new TETile(Tileset.LIGHT, Color.GREEN);
+            rtiles[1][2].emittance = temp;
+        }
+        ter.renderFrame(lightupdate(rtiles));
         StdDraw.setPenColor(Color.WHITE);
         hud(mousex, mousey);
 
@@ -310,10 +315,22 @@ public class Main {
             HEIGHT = in.readInt();
             boolean what = in.hasNextLine();
             rtiles = new TETile[WIDTH][HEIGHT];
+            rtanwidth = in.readInt();
+            rtanheight = in.readInt();
+            int booltemp = in.readInt();
+            if (booltemp == 1) {
+                ryon = true;
+            } else {
+                ryon = false;
+            }
             for (int i = 0; i < rtiles.length; i++) {
                 for (int j = 0; j < rtiles[0].length; j++) {
                     int id = in.readInt();
                     rtiles[i][j] = Tileset.getByID(id);
+                    if (id == 13) {
+                        int brightness = in.readInt();
+                        rtiles[i][j].emittance = brightness;
+                    }
                 }
             }
             ter = new TERenderer();
@@ -346,9 +363,19 @@ public class Main {
         record(out, Long.toString(seediest));
         record(out, Integer.toString(WIDTH));
         record(out, Integer.toString(HEIGHT));
+        record(out, Integer.toString(rtanwidth));
+        record(out, Integer.toString(rtanheight));
+        if (ryon) {
+            record(out, "1");
+        } else {
+            record(out, "0");
+        }
         for (int i = 0; i < rtiles.length; i++) {
             for (int j = 0; j < rtiles[i].length; j++) {
                 record(out, Integer.toString(rtiles[i][j].id()));
+                if (rtiles[i][j].id() == 13) {
+                    record(out, Integer.toString(rtiles[i][j].emittance));
+                }
             }
         }
         //more ambition features will be recorded here

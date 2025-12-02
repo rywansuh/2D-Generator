@@ -49,6 +49,8 @@ public class Tileset {
             return new TETile(GRASS, Color.gray);
         } else if (id == 13) {
             return new TETile(LIGHT, Color.yellow);
+        } else if (id == 14) {
+            return new TETile(COIN, Color.yellow);
         }
         return new TETile(NOTHING, Color.black);
     }
