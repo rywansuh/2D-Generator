@@ -317,11 +317,18 @@ public class Main {
             rtiles = new TETile[WIDTH][HEIGHT];
             rtanwidth = in.readInt();
             rtanheight = in.readInt();
+            lastEmittance = in.readInt();
             int booltemp = in.readInt();
             if (booltemp == 1) {
                 ryon = true;
             } else {
                 ryon = false;
+            }
+            booltemp = in.readInt();
+            if (booltemp == 1) {
+                onLight = true;
+            } else {
+                onLight = false;
             }
             for (int i = 0; i < rtiles.length; i++) {
                 for (int j = 0; j < rtiles[0].length; j++) {
@@ -365,7 +372,13 @@ public class Main {
         record(out, Integer.toString(HEIGHT));
         record(out, Integer.toString(rtanwidth));
         record(out, Integer.toString(rtanheight));
+        record(out, Integer.toString(lastEmittance));
         if (ryon) {
+            record(out, "1");
+        } else {
+            record(out, "0");
+        }
+        if (onLight) {
             record(out, "1");
         } else {
             record(out, "0");
