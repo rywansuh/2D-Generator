@@ -103,8 +103,11 @@ public class TETile {
                 // and just use the character and background color for the tile.
             }
         }
-
-        StdDraw.setPenColor(backgroundColor);
+        int r = Math.min(255, backgroundColor.getRed() + brightness * 10);
+        int g = Math.min(255, backgroundColor.getGreen() + brightness * 10);
+        int b = Math.min(255, backgroundColor.getBlue() + brightness * 10);
+        Color realBackground = new Color(r, g, b);
+        StdDraw.setPenColor(realBackground);
         StdDraw.filledSquare(x + 0.5, y + 0.5, 0.5);
         StdDraw.setPenColor(textColor);
         StdDraw.text(x + 0.5, y + 0.5, Character.toString(character()));
