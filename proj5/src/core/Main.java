@@ -124,7 +124,7 @@ public class Main {
             }
         }
         for (int i = 0; i < ridiots.size(); i++) {
-            brighten(ridiots.get(0).x, ridiots.get(0).y, rtiles);
+            //brighten(ridiots.get(0).x, ridiots.get(0).y, rtiles);
         }
         return rtiles;
     }
